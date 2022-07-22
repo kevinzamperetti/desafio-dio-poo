@@ -1,9 +1,11 @@
 package br.com.dio.desafio.dominio;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import br.com.dio.desafio.dominio.enums.Categoria;
+import br.com.dio.desafio.dominio.enums.Nivel;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Dev {
 
@@ -31,6 +33,20 @@ public class Dev {
                 .stream()
                 .mapToDouble(conteudo -> conteudo.calcularXp())
                 .sum();
+    }
+
+    public Set<Categoria> getCategoriasConteudos() {
+        return Stream.concat(
+                this.conteudosInscritos.stream().map(Conteudo::getCategoria),
+                this.conteudosConcluidos.stream().map(Conteudo::getCategoria)
+        ).collect(Collectors.toSet());
+    }
+
+    public Set<Nivel> getNivelConteudos() {
+        return Stream.concat(
+                this.conteudosInscritos.stream().map(Conteudo::getNivel),
+                this.conteudosConcluidos.stream().map(Conteudo::getNivel)
+        ).collect(Collectors.toSet());
     }
 
     public String getNome() {
